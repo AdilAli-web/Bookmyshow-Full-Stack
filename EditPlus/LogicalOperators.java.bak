@@ -1,0 +1,13 @@
+class LogicalOperators 
+{
+	public static void main(String[] args) 
+	{
+		int age=20;
+		boolean hasIdCard=true;
+
+		System.out.println(age>=18 && hasIdCard);
+		System.out.println(age>=18 || hasIdCard);
+		System.out.println(!hasIdCard);
+
+	}
+}

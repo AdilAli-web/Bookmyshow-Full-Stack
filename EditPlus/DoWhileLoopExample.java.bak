@@ -1,0 +1,24 @@
+class DoWhileLoopExample 
+{
+	public static void main(String[] args) 
+	{
+		//do while execute the code first then check conditon
+
+		int i=10;
+		do{
+			System.out.println("Hello World!");
+			i++;
+		}
+		while(i<=5);
+
+		System.out.println("----------------------------");
+		int choice=2;
+		do{
+			System.out.println("1. Add");
+			System.out.println("2. View");
+			System.out.println("3. Exit");
+
+			System.out.println("Selected choice : "+choice);
+		}while(choice>=1);
+	}
+}

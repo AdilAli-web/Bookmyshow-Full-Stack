@@ -1,0 +1,36 @@
+class ForWhileLoopExample 
+{
+	public static void main(String[] args) 
+	{
+		
+		for(int i=1;i<=5;i++)
+		{
+			System.out.println("Hello World!");
+		}
+
+
+		//factorial using for loop
+		// 5! = 5*4*3*2*1 = 120
+		int num=5;
+		int fact=1;
+		
+		for(int i=1;i<=num;i++)
+		{
+			i++;
+			fact=fact*i;
+		}
+		System.out.println("factorial = "+ fact);
+
+
+		System.out.println("-------------------------------");
+		for(int i=1;i<=3;i++)
+		{
+			for(int col=1;col<=3;col++)
+			{
+				System.out.print("* ");
+			}
+			System.out.println();
+		}
+
+	}
+}

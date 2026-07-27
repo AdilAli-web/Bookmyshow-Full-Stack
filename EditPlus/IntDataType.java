@@ -1,0 +1,13 @@
+class DataType 
+{
+	public static void main(String[] args) 
+	{
+		int age=20;
+		int marks=99;
+		int student=40;
+		System.out.println("Age: "+age);
+		System.out.println("marks: "+marks);
+		System.out.println("student: "+student);
+
+	}
+}
