@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!--  &lt;!&ndash; bean definitions here &ndash;&gt;
+    <bean id="eng" class="org.example.Engine"/>
+
+    &lt;!&ndash;  <bean id="carByName" class="org.example.CarByName" autowire="byName"/> &ndash;&gt;
+
+      <bean id="carByType" class="org.example.CarByType" autowire="byType"/>
+-->
+    <bean id="petrolEngine" class="org.example.PetrolEngine" autowire-candidate="false"/>
+    <bean id="DieselEngine" class="org.example.DieselEngine"/>
+
+    <bean id="gannaCar" class="org.example.GannaCar" />
+
+  </beans>
