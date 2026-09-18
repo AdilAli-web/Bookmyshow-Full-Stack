@@ -30,13 +30,20 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "booking_seats",
-            joinColumns = @JoinColumn(name = "booking_id")
-    )
-    @Column(name = "seat_label",nullable = false)
-    public List<String> seatLabels = new ArrayList<>();
+//    @ElementCollection
+//    @CollectionTable(
+//            name = "booking_seats",
+//            joinColumns = @JoinColumn(name = "booking_id")
+//    )
+//    @Column(name = "seat_label",nullable = false)
+//    private List<String> seatLabels = new ArrayList<>();
+@ElementCollection(fetch = FetchType.EAGER)
+@CollectionTable(
+        name = "booking_seats",
+        joinColumns = @JoinColumn(name = "booking_id")
+)
+@Column(name = "seat_label", nullable = false)
+private List<String> seatLabels = new ArrayList<>();
 
     public Booking()
     {
@@ -138,5 +145,9 @@ public class Booking {
 
     public void setSeatLabels(List<String> seatLabels) {
         this.seatLabels = seatLabels;
+    }
+
+    public void cancel() {
+        status=BookingStatus.CANCELLED;
     }
 }

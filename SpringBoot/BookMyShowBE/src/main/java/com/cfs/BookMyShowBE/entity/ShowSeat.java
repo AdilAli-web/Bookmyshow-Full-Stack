@@ -1,11 +1,15 @@
 package com.cfs.BookMyShowBE.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "show_seats",uniqueConstraints = @UniqueConstraint(name = "uk_show_seat",columnNames = {"show_id","seatLabel"}))
 public class ShowSeat {
 
+    @Setter
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,8 +18,10 @@ public class ShowSeat {
     private Show show;
 
 
+    @Getter
     private String seatLabel;
 
+    @Getter
     private boolean reserved;
 
     public ShowSeat()
@@ -26,23 +32,6 @@ public class ShowSeat {
     public ShowSeat(Show show, String seatLabel) {
         this.show = show;
         this.seatLabel = seatLabel;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getSeatLabel()
-    {
-        return  seatLabel;
-    }
-    public boolean isReserved()
-    {
-        return reserved;
     }
 
     public void reserve()

@@ -10,5 +10,9 @@ import java.util.List;
 public record CreateBookingRequest(
 
         @NotNull Long profileId,
-        @NotEmpty @Size(max=8) List<@NotBlank String> seatLabels) {
+        @NotEmpty @Size(max=8) List<@NotBlank String> seatLabels)
+
+
+{
+
 }
