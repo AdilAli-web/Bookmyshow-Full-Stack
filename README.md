@@ -59,7 +59,6 @@ A full-stack movie ticket booking application inspired by platforms like BookMyS
 
 ### Frontend
 
-* **React**
 * HTML
 * CSS
 * JavaScript
