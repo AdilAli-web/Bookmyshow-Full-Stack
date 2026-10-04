@@ -1,259 +1,663 @@
-# 🎬 BookMyShow — Full-Stack Movie Ticket Booking Application
+# 🎬 BookMyShow Full-Stack Movie Ticket Booking
 
-A full-stack movie ticket booking application inspired by platforms like BookMyShow. This project is built to practice and demonstrate real-world **backend development, REST APIs, database relationships, transactions, concurrency handling, and frontend integration**.
+A full-stack movie ticket booking application inspired by BookMyShow, built to practice real-world Spring Boot backend development, REST APIs, relational database design, transactions, validation, concurrency control, and frontend-backend integration.
 
-> 🚧 **Project Status:** Work in Progress
-> I’m continuously improving the application by adding new features, improving the UI, refining the backend architecture, and making the application more robust and scalable.
+> 🚧 **Status:** Learning project / actively improving
 
----
+## ✨ Project Outcome
 
-## 📌 Features
+Built an end-to-end movie booking workflow where a user can:
 
-### 🎥 Movie & Show Management
+- Browse movies
+- Select a city and date
+- Find active shows and theatres
+- View available seats
+- Select multiple seats
+- Create a booking
+- View booking details and booking history
+- Cancel a booking
+- Release previously reserved seats
 
-* Browse available movies
-* Search shows based on **city and date**
-* Display theatres and show timings
-* Show movie information and ticket prices
-* Display available seats
-
-### 🎟️ Booking System
-
-* Select available seats
-* Book multiple seats
-* View booking details
-* Cancel bookings
-* Automatically update seat availability after booking/cancellation
-
-### 🔐 Backend Features
-
-* RESTful APIs using Spring Boot
-* DTO-based request and response handling
-* Request validation
-* Global exception handling
-* Transaction management
-* Database relationships using JPA/Hibernate
-* Custom JPQL queries
-* `JOIN FETCH` for efficient data retrieval
-* Pessimistic locking for concurrent seat booking
-* Entity relationships such as:
-
-  * Movie → Shows
-  * Theatre → Shows
-  * Customer → Bookings
-  * Booking → Seats
+The project also handles important backend concerns such as database relationships, validation, transactions, JPQL, JOIN FETCH, pessimistic locking, and global exception handling.
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
 
 ### Backend
 
-* **Java**
-* **Spring Boot**
-* **Spring Data JPA**
-* **Hibernate**
-* **REST APIs**
-* **MySQL**
-* **Maven**
+- Java 21
+- Spring Boot 4.1.1
+- Spring Web MVC
+- Spring Data JPA
+- Hibernate
+- MySQL
+- Jakarta Validation
+- Maven
+- Lombok
 
 ### Frontend
 
-* HTML
-* CSS
-* JavaScript
+- HTML
+- CSS
+- JavaScript
+- Fetch API
+- Browser Local Storage
 
-### Tools
+### Development Tools
 
-* IntelliJ IDEA
-* VS Code
-* Postman
-* MySQL Workbench
-* Git & GitHub
-
----
-
-## 🏗️ Project Structure
-
-```text
-Bookmyshow-Full-Stack/
-│
-├── SpringBoot/
-│   └── BookMyShowBE/
-│       ├── src/
-│       ├── pom.xml
-│       └── ...
-│
-├── UI/
-│   ├── src/
-│   ├── public/
-│   └── ...
-│
-└── README.md
-```
+- IntelliJ IDEA
+- VS Code
+- Postman
+- MySQL Workbench
+- Git & GitHub
 
 ---
 
-## 🔄 Booking Flow
+# 🏗️ High-Level Architecture
 
-```text
-User
-  │
-  ▼
-Select City
-  │
-  ▼
-Select Date
-  │
-  ▼
-View Movies & Shows
-  │
-  ▼
-Select Show
-  │
-  ▼
-View Available Seats
-  │
-  ▼
-Select Seats
-  │
-  ▼
-Create Booking
-  │
-  ▼
-Update Seat Availability
-  │
-  ▼
-Booking Confirmed
-```
-
----
-
-## 🧩 Backend Architecture
+~~~~text
+┌──────────────────────────────┐
+│          Frontend            │
+│   HTML + CSS + JavaScript    │
+└──────────────┬───────────────┘
+               │ HTTP / JSON
+               ▼
+┌──────────────────────────────┐
+│       Spring Boot API        │
+│                              │
+│       Controllers            │
+│            ↓                 │
+│         Services             │
+│            ↓                 │
+│       Repositories           │
+└──────────────┬───────────────┘
+               │ JPA / Hibernate
+               ▼
+┌──────────────────────────────┐
+│            MySQL             │
+│ Movies, Theatres, Shows,     │
+│ Profiles, Bookings, Seats    │
+└──────────────────────────────┘
+~~~~
 
 The backend follows a layered architecture:
 
-```text
+~~~~text
 Controller
     ↓
 Service
     ↓
 Repository
     ↓
-Database
-```
-
-### Controller
-
-Handles HTTP requests and responses.
-
-### Service
-
-Contains the application's business logic.
-
-### Repository
-
-Uses Spring Data JPA to communicate with the database.
-
-### Database
-
-MySQL stores movies, theatres, shows, customers, bookings and seat-related information.
+MySQL
+~~~~
 
 ---
 
-## 🔗 Important Backend Concepts Implemented
+# 📁 Project Structure
 
-### DTOs
-
-DTOs are used to control the data exchanged between the frontend and backend.
-
-Examples include:
-
-* Booking Request DTO
-* Booking Response DTO
-* Show Response DTO
-
-### Validation
-
-Request validation is implemented to ensure that invalid data does not enter the application.
-
-### Global Exception Handling
-
-The application uses centralized exception handling to return consistent error responses instead of exposing raw server errors.
-
-### Transactions
-
-Booking and cancellation operations are handled using transactions so that related database operations are executed consistently.
-
-### Pessimistic Locking
-
-Seat updates use database locking to help prevent multiple users from successfully booking the same seat at the same time.
-
-### JPQL & JOIN FETCH
-
-Custom JPQL queries are used to retrieve related entities efficiently and reduce unnecessary database queries.
+~~~~text
+Bookmyshow-Full-Stack/
+│
+├── SpringBoot/
+│   └── BookMyShowBE/
+│       ├── src/main/java/com/cfs/BookMyShowBE/
+│       │   ├── controller/
+│       │   ├── service/
+│       │   ├── repository/
+│       │   ├── entity/
+│       │   ├── dto/
+│       │   ├── config/
+│       │   └── GlobalException/
+│       │
+│       ├── src/main/resources/
+│       │   └── application.properties
+│       │
+│       └── pom.xml
+│
+├── UI/
+│   ├── Index.html
+│   ├── app.js
+│   └── style.css
+│
+└── README.md
+~~~~
 
 ---
 
-## 🗄️ Database
+# 🎯 Main Features
 
-The application uses **MySQL** as the relational database.
+## 🎥 Movie & Show Discovery
 
-Main entities include:
+- Browse movies
+- Search/filter movies in the UI
+- Select a city
+- Select a date
+- Retrieve active shows for that city/date
+- Display theatre, show timing and ticket price
 
-```text
-Movie
-   │
-   └── Show
-          │
-          └── Theatre
-
-Customer
-   │
-   └── Booking
-          │
-          └── Booking Seats
-```
+The backend uses a custom JPQL query with JOIN FETCH to load the movie and theatre together with each show.
 
 ---
 
-## 🚀 Getting Started
+## 👤 Profile Management
 
-### 1. Clone the Repository
+Users can:
 
-```bash
-git clone https://github.com/AdilAli-web/Bookmyshow-Full-Stack.git
-```
+- Create a profile
+- Log in using an identifier
+- View their booking history
 
-```bash
-cd Bookmyshow-Full-Stack
-```
+The frontend stores the active profile in browser localStorage.
 
 ---
 
-## ⚙️ Backend Setup
+## 💺 Seat Selection
 
-Navigate to the Spring Boot project:
+The UI displays available and occupied seats.
 
-```bash
-cd SpringBoot/BookMyShowBE
-```
+Users can:
 
-Make sure you have:
+- Select multiple seats
+- See selected seats
+- See total booking amount
+- Continue to booking confirmation
 
-* Java 17+ installed
-* Maven installed
-* MySQL running
+---
 
-Configure your database connection in:
+# 🎟️ Booking Flow
 
-```text
-src/main/resources/application.properties
-```
+A booking request contains:
+
+- Profile ID
+- Show ID
+- Selected seat labels
 
 Example:
 
-```properties
+~~~~json
+{
+  "profileId": 1,
+  "seatLabels": ["A1", "A2", "B1"]
+}
+~~~~
+
+The backend then:
+
+1. Finds the show
+2. Finds the customer/profile
+3. Normalizes seat labels
+4. Rejects duplicate labels
+5. Locks the selected seats
+6. Verifies that every seat is still available
+7. Reserves the seats
+8. Updates show availability
+9. Calculates the total amount
+10. Saves the booking
+11. Returns a booking response
+
+---
+
+# 🔒 Concurrency & Double-Booking Protection
+
+One of the most important backend concepts in this project is concurrent seat booking.
+
+Imagine two users try to book the same seats at almost the same time:
+
+~~~~text
+User A → A1, A2
+User B → A1, A2
+~~~~
+
+Without proper concurrency control, both requests could see the seats as available.
+
+The project uses:
+
+~~~~java
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+~~~~
+
+in ShowSeatRepository.
+
+This locks the selected seat rows while the booking transaction performs its availability check and reservation.
+
+### Booking safety flow
+
+~~~~text
+Request
+   ↓
+@Transactional
+   ↓
+Find show
+   ↓
+Find customer
+   ↓
+Normalize seat labels
+   ↓
+Reject duplicates
+   ↓
+PESSIMISTIC_WRITE lock
+   ↓
+Check seat availability
+   ↓
+Reserve seats
+   ↓
+Update available seat count
+   ↓
+Create booking
+   ↓
+Commit transaction
+~~~~
+
+This is one of the main differences between a basic CRUD project and a booking system that considers concurrent requests.
+
+---
+
+# 🔄 End-to-End Booking Flow
+
+~~~~text
+User
+ │
+ ├── Select City
+ │
+ ├── Select Date
+ │
+ ├── View Movies & Shows
+ │
+ ├── Select Show
+ │
+ ├── View Available Seats
+ │
+ ├── Select Seats
+ │
+ ├── Confirm Booking
+ │
+ ▼
+Spring Boot Backend
+ │
+ ├── Validate request
+ ├── Lock seats
+ ├── Check availability
+ ├── Reserve seats
+ ├── Update show
+ ├── Save booking
+ │
+ ▼
+Booking Confirmed
+~~~~
+
+---
+
+# ❌ Booking Cancellation Flow
+
+When a confirmed booking is cancelled:
+
+~~~~text
+Find booking + profile
+        ↓
+Check booking status
+        ↓
+Lock booked seats
+        ↓
+Release each seat
+        ↓
+Increase show's available seat count
+        ↓
+Mark booking CANCELLED
+        ↓
+Return updated booking
+~~~~
+
+This operation is also transactional.
+
+---
+
+# 🗄️ Domain Model
+
+The main domain objects are:
+
+~~~~text
+Movie
+  │
+  └── Show
+        │
+        ├── Theatre
+        │
+        └── ShowSeat
+
+Profile / Customer
+  │
+  └── Booking
+        │
+        └── Booking Seats
+~~~~
+
+Conceptually:
+
+- One movie can have many shows
+- A theatre can host many shows
+- A show has its own seat inventory
+- A customer/profile can have many bookings
+- A booking is associated with one show and selected seat labels
+
+---
+
+# 🧩 Backend Layers
+
+## Controller Layer
+
+Controllers handle HTTP requests and delegate business logic.
+
+Main controllers:
+
+- MovieController
+- ShowController
+- TheatreController
+- ProfileController
+- BookingController
+
+Examples:
+
+~~~~text
+GET  /api/v1/shows
+POST /api/v1/bookings/shows/{showId}
+GET  /api/v1/bookings/{bookingId}
+POST /api/v1/bookings/{bookingId}/cancel
+POST /api/v1/profiles
+GET  /api/v1/profiles/login
+GET  /api/v1/profiles/{profileId}/bookings
+~~~~
+
+---
+
+## Service Layer
+
+The service layer contains business rules.
+
+Important services:
+
+- CatalogService
+- BookingService
+- ProfileService
+
+BookingService is responsible for:
+
+- booking
+- cancellation
+- seat validation
+- concurrency protection
+- total amount calculation
+
+---
+
+## Repository Layer
+
+Repositories use Spring Data JPA to communicate with MySQL.
+
+Important repositories include:
+
+- MovieRepository
+- ShowRepository
+- ShowSeatRepository
+- BookingRepository
+- CustomerRepository
+- TheatreRepository
+
+---
+
+# 🔎 JPQL & JOIN FETCH
+
+The project uses a custom JPQL query in ShowRepository to find active shows for a city and date range while fetching the related movie and theatre.
+
+~~~~java
+SELECT s
+FROM Show s
+JOIN FETCH s.movie m
+JOIN FETCH s.theatre t
+WHERE s.active = true
+  AND m.active = true
+  AND t.city = :city
+  AND s.startsAt >= :from
+  AND s.startsAt < :to
+ORDER BY s.startsAt
+~~~~
+
+### Why?
+
+The show response needs information from:
+
+- Show
+- Movie
+- Theatre
+
+JOIN FETCH helps load the required related entities together and avoids unnecessary lazy-loading queries for this use case.
+
+---
+
+# ✅ Validation
+
+Request DTOs use Jakarta Validation with @Valid.
+
+This keeps invalid input from reaching the business logic unnecessarily.
+
+---
+
+# 🚨 Global Exception Handling
+
+The backend contains centralized exception handling through:
+
+- GlobalExceptionHandler
+- ExceptionResponse
+
+Custom exceptions cover cases such as:
+
+- BookingException
+- BookingNotFound
+- CustomerNotFound
+- ProfileException
+- SeatNotAvailable
+- ShowNotFound
+
+This provides more consistent API error responses than exposing raw server exceptions.
+
+---
+
+# 💰 Booking Amount Calculation
+
+The total booking amount is calculated on the backend:
+
+~~~~text
+Ticket Price × Number of Seats
+~~~~
+
+Example:
+
+~~~~text
+Ticket price = ₹250
+Seats = 3
+
+Total = ₹250 × 3
+      = ₹750
+~~~~
+
+The frontend does not decide the final amount.
+
+---
+
+# 🌐 Frontend
+
+The current UI is a lightweight vanilla JavaScript application using:
+
+- Index.html
+- style.css
+- app.js
+- Fetch API
+- localStorage
+
+The frontend handles:
+
+- movie rendering
+- search/filtering
+- city selection
+- date selection
+- show rendering
+- seat selection
+- profile creation/login
+- booking
+- booking history
+- cancellation
+- modal and toast interactions
+
+The current frontend API base URL is:
+
+~~~~text
+http://localhost:8080/api/v1
+~~~~
+
+---
+
+# 🔌 Important API Endpoints
+
+## Movies
+
+~~~~http
+GET /api/v1/movies
+~~~~
+
+## Shows
+
+~~~~http
+GET /api/v1/shows?city=Delhi&date=2026-09-18
+~~~~
+
+## Create Profile
+
+~~~~http
+POST /api/v1/profiles
+Content-Type: application/json
+~~~~
+
+## Profile Login
+
+~~~~http
+GET /api/v1/profiles/login?identifier=...
+~~~~
+
+## Create Booking
+
+~~~~http
+POST /api/v1/bookings/shows/{showId}
+Content-Type: application/json
+~~~~
+
+Example:
+
+~~~~json
+{
+  "profileId": 1,
+  "seatLabels": ["A1", "A2"]
+}
+~~~~
+
+## Get Booking
+
+~~~~http
+GET /api/v1/bookings/{bookingId}
+~~~~
+
+## Cancel Booking
+
+~~~~http
+POST /api/v1/bookings/{bookingId}/cancel?profileId=1
+~~~~
+
+## Booking History
+
+~~~~http
+GET /api/v1/profiles/{profileId}/bookings
+~~~~
+
+---
+
+# 🧪 Postman Testing Flow
+
+A typical API testing sequence:
+
+### 1. Create profile
+
+~~~~http
+POST /api/v1/profiles
+~~~~
+
+### 2. Find shows
+
+~~~~http
+GET /api/v1/shows?city=Delhi&date=2026-09-18
+~~~~
+
+### 3. Book seats
+
+~~~~http
+POST /api/v1/bookings/shows/2
+~~~~
+
+### 4. Check booking
+
+~~~~http
+GET /api/v1/bookings/1
+~~~~
+
+### 5. View booking history
+
+~~~~http
+GET /api/v1/profiles/1/bookings
+~~~~
+
+### 6. Cancel booking
+
+~~~~http
+POST /api/v1/bookings/1/cancel?profileId=1
+~~~~
+
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
+
+Install:
+
+- Java 21
+- MySQL
+- Maven
+- A modern web browser
+- Postman (optional)
+
+## 1. Clone the repository
+
+~~~~bash
+git clone https://github.com/AdilAli-web/Bookmyshow-Full-Stack.git
+cd Bookmyshow-Full-Stack
+~~~~
+
+## 2. Configure MySQL
+
+Create a database named:
+
+~~~~text
+bookmyshow
+~~~~
+
+Update:
+
+~~~~text
+SpringBoot/BookMyShowBE/src/main/resources/application.properties
+~~~~
+
+Example:
+
+~~~~properties
 spring.datasource.url=jdbc:mysql://localhost:3306/bookmyshow?createDatabaseIfNotExist=true
 spring.datasource.username=root
 spring.datasource.password=YOUR_PASSWORD
@@ -261,135 +665,155 @@ spring.datasource.password=YOUR_PASSWORD
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
-```
+spring.jpa.open-in-view=false
+~~~~
 
-Run the application:
+> Never commit real production database credentials to a public repository. Use environment variables or local secret configuration.
 
-```bash
+## 3. Start the backend
+
+~~~~bash
+cd SpringBoot/BookMyShowBE
 mvn spring-boot:run
-```
+~~~~
 
-The backend will start on the configured Spring Boot port.
+Or run BookMyShowBeApplication.java from IntelliJ IDEA.
 
----
+The backend normally runs at:
 
-## 💻 Frontend Setup
+~~~~text
+http://localhost:8080
+~~~~
 
-Navigate to the UI directory:
+## 4. Start the frontend
 
-```bash
-cd UI
-```
+The current repository contains a vanilla HTML/CSS/JavaScript UI and does not require React, Vite, or an npm build step.
 
-Install dependencies:
+You can serve the UI directory using any local static server or open Index.html through your preferred development setup.
 
-```bash
-npm install
-```
+Make sure the backend is running because app.js calls:
 
-Start the development server:
-
-```bash
-npm run dev
-```
-
-The frontend will then be available at the URL shown in your terminal.
+~~~~text
+http://localhost:8080/api/v1
+~~~~
 
 ---
 
-## 🧪 API Testing
+# ⚙️ Configuration Notes
 
-The backend APIs can be tested using **Postman**.
+The backend uses:
 
-Example operations include:
+~~~~properties
+spring.jpa.open-in-view=false
+~~~~
 
-```text
-GET     /shows
-POST    /bookings
-GET     /bookings/{id}
-DELETE  /bookings/{id}
-```
+This keeps persistence access explicit rather than depending on Open Session in View.
 
-> Endpoint paths may change as the project continues to evolve.
+The schema is currently configured with:
 
----
+~~~~properties
+spring.jpa.hibernate.ddl-auto=update
+~~~~
 
-## 📸 Screenshots
-
-Screenshots of the application will be added here as the UI continues to improve.
-
-```text
-Coming Soon 🚧
-```
+For a production application, database migrations with Flyway or Liquibase would be a better approach.
 
 ---
 
-## 🔮 Future Improvements
+# 📚 Key Concepts Learned
 
-This project is actively being improved.
+This project was built to understand:
 
-Planned improvements include:
-
-* 🔐 User authentication & authorization
-* 👤 User profile management
-* 💳 Online payment integration
-* ⭐ Movie ratings and reviews
-* 🔎 Improved movie search and filtering
-* 📱 Better responsive design
-* 🎨 Further UI/UX improvements
-* ⚡ Backend performance optimization
-* 🧪 More unit and integration tests
-* 🐳 Docker support
-* ☁️ Cloud deployment
-* 📊 Admin dashboard
-* 🎫 Improved booking history
-* 🔔 Booking confirmation notifications
-
----
-
-## 🎯 What I Learned
-
-Through this project, I have gained practical experience with:
-
-* Building REST APIs using Spring Boot
-* Spring Data JPA & Hibernate
-* Entity relationships
-* MySQL database design
-* DTOs and validation
-* Exception handling
-* Transactions
-* Concurrent booking scenarios
-* Database locking
-* JPQL queries
-* Frontend-backend integration
-* Git and GitHub
-* Debugging real-world application issues
+- REST API design
+- Layered architecture
+- Spring Boot
+- Spring Data JPA
+- Hibernate
+- Entity relationships
+- DTOs
+- Validation
+- JPQL
+- JOIN FETCH
+- Transactions
+- Pessimistic locking
+- Concurrency problems
+- Seat inventory management
+- Global exception handling
+- Database consistency
+- Frontend-backend integration
+- Git and GitHub
+- Debugging real application issues
 
 ---
 
-## 🚧 Current Status
+# 🧠 What Makes This More Than CRUD?
 
-This is an **ongoing learning project**.
+A basic CRUD application mostly performs:
 
-The core movie browsing, show selection, seat selection, booking and cancellation functionality has been implemented.
+~~~~text
+Create
+Read
+Update
+Delete
+~~~~
 
-I will continue improving the project by adding new features, improving the UI/UX, optimizing the backend, and exploring better approaches to building scalable applications.
+A booking system introduces a more difficult business problem:
+
+> **What happens when two users try to book the same seat at nearly the same time?**
+
+This project addresses that problem with:
+
+- transactional booking operations
+- pessimistic locking
+- seat availability validation
+- duplicate-seat validation
+- atomic seat reservation
+- seat release during cancellation
+
+That made the project useful for understanding backend consistency and concurrency, not just CRUD APIs.
 
 ---
 
-## 👨‍💻 Author
+# 🔮 Future Improvements
+
+- 🔐 JWT authentication and authorization
+- 👤 Stronger user/profile security
+- 💳 Payment gateway integration
+- ⭐ Ratings and reviews
+- 📱 Better responsive UI
+- 🧪 Unit and integration tests
+- 🐳 Docker
+- ☁️ Cloud deployment
+- 📊 Admin dashboard
+- 📧 Booking confirmation email
+- 🔔 Notifications
+- ⚡ Caching and performance optimization
+- 🗂️ Database migrations with Flyway/Liquibase
+- 📈 Observability and structured logging
+
+---
+
+# 🎯 Interview Summary
+
+> "I built a full-stack movie ticket booking application using a Spring Boot REST backend, MySQL, JPA/Hibernate, and a vanilla JavaScript frontend. The application supports movie and show discovery, seat selection, booking, booking history, and cancellation. The main backend challenge was preventing double-booking during concurrent seat requests, which I handled using transactions and pessimistic database locking. I also implemented DTOs, request validation, custom JPQL with JOIN FETCH, and centralized exception handling."
+
+---
+
+# 📌 Repository
+
+**GitHub:**  
+https://github.com/AdilAli-web/Bookmyshow-Full-Stack
+
+---
+
+# 👨‍💻 Author
 
 **Adil Ali**
 
 MCA Student | Java & Spring Boot Developer
 
-GitHub:
+GitHub:  
 https://github.com/AdilAli-web
 
 ---
 
-## ⭐ Support
-
-If you find this project useful or interesting, consider giving it a ⭐ on GitHub!
-
-More improvements coming soon 🚀
+⭐ If you find this project useful, consider giving the repository a star.
